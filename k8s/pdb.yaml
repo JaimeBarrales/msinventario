@@ -1,0 +1,12 @@
+# Garantiza que siempre quede al menos 1 réplica durante mantenciones del clúster
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ms-inventario
+  labels:
+    app.kubernetes.io/name: ms-inventario
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ms-inventario

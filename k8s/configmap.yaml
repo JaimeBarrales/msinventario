@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ms-inventario-config
+  labels:
+    app.kubernetes.io/name: ms-inventario
+data:
+  DB_URL: jdbc:mysql://mysql:3306/inventario
+  DB_POOL_SIZE: "5"
+  APP_ENV: produccion-k8s
+  JAVA_TOOL_OPTIONS: "-XX:+UseG1GC"

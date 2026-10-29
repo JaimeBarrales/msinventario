@@ -1,0 +1,5 @@
+# Mantiene finales de línea Unix en scripts que se ejecutan dentro de Linux/Docker,
+# aunque el repositorio se clone en Windows (evita el error "bad interpreter: /bin/sh^M").
+mvnw        text eol=lf
+*.sh        text eol=lf
+mvnw.cmd    text eol=crlf

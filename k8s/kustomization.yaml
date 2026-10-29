@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: inventario
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - mysql.yaml
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+  - pdb.yaml
+  - networkpolicy.yaml
+
+# El pipeline reemplaza newName/newTag por la imagen exacta construida
+# (ghcr.io/<owner>/ms-inventario:sha-<commit>) antes de aplicar.
+images:
+  - name: ms-inventario
+    newName: ms-inventario
+    newTag: local

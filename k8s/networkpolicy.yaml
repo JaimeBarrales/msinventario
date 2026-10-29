@@ -1,0 +1,18 @@
+# Solo los pods del microservicio pueden conectarse a MySQL.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mysql-solo-desde-app
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: mysql
+  policyTypes: ["Ingress"]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ms-inventario
+      ports:
+        - protocol: TCP
+          port: 3306

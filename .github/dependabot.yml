@@ -1,0 +1,42 @@
+# Dependabot: revisa semanalmente dependencias de Maven, la imagen base de Docker
+# y las Actions del pipeline. Cada actualización llega como Pull Request y debe
+# pasar por todo el pipeline (pruebas + Snyk) antes de poder fusionarse.
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: America/Santiago
+    open-pull-requests-limit: 5
+    labels: [dependencias, java]
+    commit-message:
+      prefix: "deps(maven)"
+    groups:
+      spring-boot:
+        patterns: ["org.springframework.boot*"]
+      parches-y-menores:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    labels: [dependencias, docker]
+    commit-message:
+      prefix: "deps(docker)"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    labels: [dependencias, ci]
+    commit-message:
+      prefix: "deps(actions)"
+    groups:
+      actions:
+        patterns: ["*"]
