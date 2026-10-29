@@ -11,7 +11,7 @@
 # -----------------------------------------------------------------------------
 # Etapa 1: dependencias (se reutiliza mientras no cambie el pom.xml)
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:21-jdk AS dependencies
+FROM eclipse-temurin:24-jdk AS dependencies
 WORKDIR /app
 COPY pom.xml .
 COPY mvnw .
@@ -22,7 +22,7 @@ RUN chmod +x mvnw && ./mvnw dependency:go-offline -B -q
 # -----------------------------------------------------------------------------
 # Etapa 2: pruebas unitarias
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:21-jdk AS test
+FROM eclipse-temurin:24-jdk AS test
 WORKDIR /app
 # Reutiliza el caché de dependencias de la etapa anterior
 COPY --from=dependencies /root/.m2 /root/.m2
@@ -34,7 +34,7 @@ RUN ./mvnw test -B -Djacoco.skip=true
 # Etapa 3: compilación (al copiar /app desde "test" se crea la dependencia
 # entre etapas: si las pruebas fallan, esta etapa nunca se ejecuta)
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:21-jdk AS compile
+FROM eclipse-temurin:24-jdk AS compile
 WORKDIR /app
 COPY --from=dependencies /root/.m2 /root/.m2
 COPY --from=test /app /app
@@ -49,7 +49,7 @@ RUN ./mvnw clean package -DskipTests -Djacoco.skip=true -B -q \
 # Etapa 4: producción. Solo JRE (no JDK ni Maven) sobre Alpine -> imagen pequeña
 # y con menos superficie de ataque.
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:21-jre-alpine AS prod
+FROM eclipse-temurin:24-jre-alpine AS prod
 
 ARG GIT_COMMIT=local
 ARG PIPELINE_RUN=local
