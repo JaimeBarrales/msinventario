@@ -26,6 +26,10 @@ updates:
       interval: weekly
       day: monday
     labels: [dependencias, docker]
+    ignore:
+      # El JDK se mantiene en la versión LTS del proyecto (21); evita PRs a versiones no LTS
+      - dependency-name: eclipse-temurin
+        update-types: [version-update:semver-major]
     commit-message:
       prefix: "deps(docker)"
 

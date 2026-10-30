@@ -13,6 +13,9 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+    properties:
+      # Sin mapeos XML: Hibernate no necesita JAXB (excluido en el pom.xml por seguridad)
+      hibernate.xml_mapping_enabled: false
   lifecycle:
     timeout-per-shutdown-phase: 20s
 

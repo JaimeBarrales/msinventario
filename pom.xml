@@ -38,6 +38,15 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <!-- Snyk SNYK-JAVA-ORGGLASSFISHJAXB-20883142 (XXE, High) en jaxb-core 4.0.9, sin
+                     versión corregida. Hibernate solo usa JAXB para mapeos XML (orm.xml / hbm.xml)
+                     y este proyecto mapea con anotaciones (ver hibernate.xml_mapping_enabled). -->
+                <exclusion>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
